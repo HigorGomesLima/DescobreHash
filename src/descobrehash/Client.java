@@ -18,7 +18,7 @@ public class Client {
         DataInputStream entrada = new DataInputStream (socket.getInputStream());
         DataOutputStream saida = new DataOutputStream (socket.getOutputStream());
         int tamanho = entrada.readInt();
-        System.out.println("Tamanho do arquivo a ser recebido (Bytes): " + tamanho);
+        System.out.println("Procurando ...");
         byte[] bytesArquivo = new byte[tamanho];
         entrada.readFully(bytesArquivo);
         int numArq = entrada.readInt();
@@ -32,22 +32,24 @@ public class Client {
         BufferedReader lerArq = new BufferedReader(arq);
         String linha = lerArq.readLine();
         String senha = null;
+        int posicao = 0;
         while(linha != null && senha == null){
             MessageDigest m = MessageDigest.getInstance("SHA1");
             m.update(linha.getBytes(), 0, linha.length());
             String atual = new BigInteger(1, m.digest()).toString(16);
             if(atual.equals(codigo)){
                 senha = linha;
-                System.out.println("FOI !!");
+                //System.out.println("FOI !!");
             }
             linha = lerArq.readLine();
+            posicao++;
         }
         lerArq.close();
         arq.close();
         if(senha != null){
-            saida.writeUTF("Senha encontrada: " + senha);
+            saida.writeUTF("Cliente "+ numArq+" Senha encontrada: " + senha + " na posicao :"+ (tamanho*(numArq-1)+posicao));
         }else{
-            saida.writeUTF("Senha não encontrada");
+            saida.writeUTF("Cliente "+ numArq+" Senha não encontrada");
         }
         
     }

@@ -23,8 +23,8 @@ public class Servidor {
         arquivo.close();
         int numeroConexoes = 0;
         int tamanhoI = tamanhoArquivo/5;
-        //senha = 00000bVb
-        String descobre = "db3c3e49ffa96c6fb691887f5e9f717ee1ec7f33";
+        //senha = 0000hdRx
+        String descobre = "1b077a0228e8691232b6e88d1d377576a062361d";
         while (numeroConexoes < 5) {
             Socket novaConexao = ss.accept();
             byte[] arquivoCliente = getSubConjunto(bytesArquivo,tamanhoI,numeroConexoes);
@@ -43,4 +43,5 @@ public class Servidor {
         }
         return saida;
     }
+    
 }
